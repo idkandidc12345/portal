@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL X — Short Code Network Hub</title>
+    <title>PORTAL X — Local Sync Channel Hub</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
@@ -51,9 +51,11 @@
         }
 
         .hero-banner p {
-            color: #94a3b8;
-            font-size: 18px;
-            font-weight: 500;
+            color: #38bdf8;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
             margin: 0;
         }
 
@@ -71,7 +73,7 @@
         }
 
         h2 {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 800;
             margin-top: 0;
             margin-bottom: 25px;
@@ -92,30 +94,29 @@
         }
 
         .giant-upload-box {
-            padding: 60px 20px;
+            padding: 50px 20px;
             background: rgba(0, 0, 0, 0.3);
             border: 2px dashed rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: #94a3b8;
             transition: all 0.2s;
         }
 
         .drop-zone:hover .giant-upload-box {
-            border-color: #f1f5f9;
+            border-color: #38bdf8;
             color: #fff;
         }
 
-        /* RECOMMENDATION TRAY */
         .filename-tip {
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: rgba(56, 189, 248, 0.06);
+            border: 1px solid rgba(56, 189, 248, 0.15);
             padding: 14px 18px;
             border-radius: 14px;
             font-size: 13px;
-            color: #7dd3fc;
+            color: #93c5fd;
             font-weight: 500;
             margin-bottom: 20px;
             line-height: 1.4;
@@ -123,64 +124,27 @@
 
         .pro-btn {
             width: 100%;
-            padding: 20px;
+            padding: 18px;
             background: #f1f5f9;
             border: none;
             border-radius: 18px;
             color: #0f172a;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
             cursor: pointer;
-            transition: transform 0.1s, background-color 0.2s;
+            transition: all 0.15s;
         }
 
         .pro-btn:hover {
             background: #fff;
-            transform: translateY(-1px);
-        }
-
-        .pro-btn:disabled {
-            background: rgba(255,255,255,0.05);
-            color: #475569;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .progress-wrapper {
-            margin: 20px 0;
-            display: none;
-        }
-        
-        .progress-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #94a3b8;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .progress-bar-bg {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            height: 12px;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .progress-bar-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #38bdf8, #c084fc);
-            transition: width 0.1s linear;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
         }
 
         .success-tray {
             margin-top: 25px;
             padding: 20px;
-            background: rgba(56, 189, 248, 0.04);
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: rgba(34, 197, 94, 0.04);
+            border: 1px solid rgba(34, 197, 94, 0.2);
             border-radius: 18px;
             display: none;
         }
@@ -189,7 +153,7 @@
             font-size: 12px;
             text-transform: uppercase;
             font-weight: 800;
-            color: #38bdf8;
+            color: #4ade80;
             display: block;
             margin-bottom: 8px;
             letter-spacing: 0.05em;
@@ -202,16 +166,17 @@
 
         .input-row input {
             flex: 1;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.1);
             padding: 15px;
             border-radius: 12px;
             color: #fff;
             font-family: monospace;
-            font-size: 20px;
+            font-size: 24px;
             text-align: center;
             outline: none;
-            font-weight: 700;
+            font-weight: 900;
+            letter-spacing: 1px;
         }
 
         .viewport-stage {
@@ -231,7 +196,7 @@
         video { width: 100%; border-radius: 12px; max-height: 380px; }
         img.viewport-img { width: 100%; max-height: 380px; object-fit: contain; border-radius: 12px; }
         
-        .placeholder-text { font-size: 16px; color: #475569; text-align: center; font-weight: 600; line-height: 1.5; }
+        .placeholder-text { font-size: 15px; color: #475569; text-align: center; font-weight: 600; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -240,220 +205,145 @@
         
         <div class="hero-banner">
             <h1>PORTAL X</h1>
-            <p>Worldwide Stream-Link Hub</p>
+            <p>Local Cache Micro-Linker</p>
         </div>
 
-        <!-- LEFT HUB: TRANSMITTER -->
+        <!-- TRANSMITTER CARD -->
         <div class="massive-card">
-            <h2>📡 Cloud Code Transmitter</h2>
+            <h2>📡 Local Memory Streamer</h2>
             
             <div class="drop-zone">
                 <input type="file" id="mediaPayload" onchange="stageFile()">
                 <div class="giant-upload-box" id="uploadBoxLabel">
-                    <span style="font-size: 40px; display:block; margin-bottom:15px;">⚡</span>
-                    DROP MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Upload a file to generate a clean short code link.</span>
+                    <span style="font-size: 36px; display:block; margin-bottom:12px;">⚡</span>
+                    DROP MEDIA FILE HERE<br><span style="font-size:12px; color:#475569; font-weight:400; display:block; margin-top:6px;">Instantly locks file into your browser session memory.</span>
                 </div>
             </div>
 
-            <!-- RECOMMENDED FILENAME NOTIFICATION BANNER -->
             <div class="filename-tip">
-                <strong>💡 Quick Tip:</strong> Keep your local file names short and simple (like <i>track1.mp3</i>) before uploading. This makes your shared short code much smaller and easier to read!
+                <strong>💡 Quick Tip:</strong> Keep your file names short and sweet! Shorter names prevent memory address fragmentation and make tracking seamless.
             </div>
 
-            <!-- PROGRESS RUNWAY -->
-            <div class="progress-wrapper" id="progressRunway">
-                <div class="progress-meta">
-                    <span id="progressStatusText">Streaming data blocks...</span>
-                    <span id="progressPercentText">0%</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progressBarFill"></div>
-                </div>
-            </div>
-
-            <button class="pro-btn" id="uploadBtn" onclick="transmitFileToServer()">Upload & Generate Code</button>
+            <button class="pro-btn" id="uploadBtn" onclick="generateMicroMemoryToken()">Generate Tiny Micro Code</button>
 
             <div class="success-tray" id="urlTray">
-                <label>🔮 Your Short Code Key:</label>
+                <label>🔮 Your Session Micro Code:</label>
                 <div class="input-row">
-                    <input type="text" id="finalShortenedUrl" readonly style="color: #38bdf8;">
-                    <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px; background: #38bdf8; color: #020617;" onclick="copyKey()">Copy Code</button>
+                    <input type="text" id="finalShortenedUrl" readonly style="color: #4ade80;">
+                    <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px; background: #4ade80; color: #020617;" onclick="copyKey()">Copy Code</button>
                 </div>
-                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🚀 Paste just this clean short key into the receiver panel to sync media playback.</span>
+                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🚀 Type just this 4-digit code directly into the discovery deck next door!</span>
             </div>
         </div>
 
-        <!-- RIGHT HUB: RECEIVER -->
+        <!-- RECEIVER CARD -->
         <div class="massive-card">
-            <h2>🔮 Remote Discovery Deck</h2>
+            <h2>🔮 Micro Discovery Deck</h2>
             
             <div class="input-row" style="margin-bottom: 25px;">
-                <input type="text" id="linkOrKeyField" placeholder="Enter short code key here..." autocomplete="off">
-                <button class="pro-btn" style="width:auto; padding:0 25px;" onclick="connectToWorldwideChannel()">Connect</button>
+                <input type="text" id="linkOrKeyField" placeholder="Enter 4-digit token (e.g. 7421)" autocomplete="off">
+                <button class="pro-btn" style="width:auto; padding:0 25px;" onclick="pullFromMemoryChannel()">Connect</button>
             </div>
 
             <div class="viewport-stage" id="viewportMain">
-                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a short code channel to sync the live stream player.</div>
+                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter an active session code to sync playback.</div>
             </div>
         </div>
 
     </div>
 
     <script>
-        let globalFileStorage = null;
+        // Use browser storage keys mapped directly to internal file references
+        window.portalMemoryBank = window.portalMemoryBank || {};
+        let temporarilyStagedFile = null;
 
         function stageFile() {
             const input = document.getElementById('mediaPayload');
             const box = document.getElementById('uploadBoxLabel');
             if (!input.files || input.files.length === 0) return;
 
-            globalFileStorage = input.files[0];
-            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">(${(globalFileStorage.size / (1024*1024)).toFixed(2)} MB) Loaded.</span>`;
+            temporarilyStagedFile = input.files[0];
+            box.innerHTML = `<span style="font-size: 36px; display:block; margin-bottom:12px;">📦</span><strong>${temporarilyStagedFile.name}</strong><br><span style="font-size:13px; color:#38bdf8;">Locked in Local Cache Runway.</span>`;
             
             document.getElementById('urlTray').style.display = "none";
-            document.getElementById('progressRunway').style.display = "none";
         }
 
-        function transmitFileToServer() {
-            if (!globalFileStorage) {
-                alert("Please drop a file first.");
+        function generateMicroMemoryToken() {
+            if (!temporarilyStagedFile) {
+                alert("Please drop a file down first.");
                 return;
             }
 
-            const uploadBtn = document.getElementById('uploadBtn');
-            const runway = document.getElementById('progressRunway');
-            const fill = document.getElementById('progressBarFill');
-            const percentText = document.getElementById('progressPercentText');
-            const statusText = document.getElementById('progressStatusText');
-            const tray = document.getElementById('urlTray');
+            // Generate a super tiny, ultra-clean 4 digit number
+            const tinyNumericToken = Math.floor(1000 + Math.random() * 9000).toString();
+            
+            // Convert file stream directly into a local browser stream URL
+            const nativeStreamUrl = URL.createObjectURL(temporarilyStagedFile);
+
+            // Save references inside our app sandbox
+            window.portalMemoryBank[tinyNumericToken] = {
+                streamUrl: nativeStreamUrl,
+                fileName: temporarilyStagedFile.name,
+                fileType: temporarilyStagedFile.type
+            };
+
             const keyField = document.getElementById('finalShortenedUrl');
+            const tray = document.getElementById('urlTray');
 
-            runway.style.display = "block";
-            uploadBtn.disabled = true;
-            uploadBtn.textContent = "Processing Stream...";
-            fill.style.width = "0%";
-            percentText.textContent = "0%";
-
-            const formData = new FormData();
-            formData.append('file', globalFileStorage);
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://tmpfiles.org/api/v1/upload', true);
-            xhr.timeout = 120000;
-
-            xhr.upload.onprogress = function(e) {
-                if (e.lengthComputable) {
-                    const percentage = Math.round((e.loaded / e.total) * 100);
-                    fill.style.width = percentage + "%";
-                    percentText.textContent = percentage + "%";
-                    
-                    if (percentage < 100) {
-                        statusText.textContent = "Uploading data blocks...";
-                    } else {
-                        statusText.textContent = "Generating Short Key...";
-                    }
-                }
-            };
-
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        if (response.status === "success" && response.data && response.data.url) {
-                            let cleanUrl = response.data.url;
-                            
-                            // Strips away "https://tmpfiles.org/" and yields a secure, robust short code sequence 
-                            // Example format: 1234567/filename.mp3
-                            const urlParts = cleanUrl.split('tmpfiles.org/');
-                            if (urlParts.length > 1) {
-                                keyField.value = urlParts[1];
-                                tray.style.display = "block";
-                                statusText.textContent = "Channel Active!";
-                                uploadBtn.textContent = "Stream Setup Done";
-                            } else {
-                                throw new Error("Link layout mismatch.");
-                            }
-                        } else {
-                            throw new Error("Invalid structure");
-                        }
-                    } catch (err) {
-                        handleError("Parsing Error: Could not compile link code.");
-                    }
-                } else {
-                    handleError("Upload refused by node server. Status: " + xhr.status);
-                }
-            };
-
-            xhr.onerror = function() {
-                handleError("Network disruption occurred.");
-            };
-
-            xhr.send(formData);
-
-            function handleError(message) {
-                alert(message);
-                runway.style.display = "none";
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = "Upload & Generate Code";
-            }
+            keyField.value = tinyNumericToken;
+            tray.style.display = "block";
         }
 
-        function connectToWorldwideChannel() {
-            let userEnteredCode = document.getElementById('linkOrKeyField').value.trim();
+        function pullFromMemoryChannel() {
+            const targetCode = document.getElementById('linkOrKeyField').value.trim();
             const viewport = document.getElementById('viewportMain');
             
-            if (!userEnteredCode) return;
+            if (!targetCode) return;
 
-            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Re-routing direct audio/video pipe streaming lines...</div>`;
+            const record = window.portalMemoryBank[targetCode];
 
-            // Auto-clean input if someone pastes the whole link accidentally
-            if (userEnteredCode.includes('tmpfiles.org/dl/')) {
-                userEnteredCode = userEnteredCode.split('tmpfiles.org/dl/')[1];
-            } else if (userEnteredCode.includes('tmpfiles.org/')) {
-                userEnteredCode = userEnteredCode.split('tmpfiles.org/')[1];
+            if (!record) {
+                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Code channel error. Channel #${targetCode} is empty or expired.</div>`;
+                return;
             }
 
-            // Remap back to direct download endpoint
-            const targetFullUrl = "https://tmpfiles.org/dl/" + userEnteredCode;
-            const lowercaseCheck = targetFullUrl.toLowerCase();
+            const mime = record.fileType.toLowerCase();
             let format = "unknown";
 
-            if (lowercaseCheck.includes('.mp3') || lowercaseCheck.includes('.wav') || lowercaseCheck.includes('.ogg') || lowercaseCheck.includes('.m4a')) {
+            if (mime.startsWith('audio/') || record.fileName.endsWith('.mp3') || record.fileName.endsWith('.wav') || record.fileName.endsWith('.m4a')) {
                 format = "audio";
-            } else if (lowercaseCheck.includes('.mp4') || lowercaseCheck.includes('.webm') || lowercaseCheck.includes('.mov')) {
+            } else if (mime.startsWith('video/') || record.fileName.endsWith('.mp4') || record.fileName.endsWith('.webm') || record.fileName.endsWith('.mov')) {
                 format = "video";
-            } else if (lowercaseCheck.includes('.jpg') || lowercaseCheck.includes('.jpeg') || lowercaseCheck.includes('.png') || lowercaseCheck.includes('.gif') || lowercaseCheck.includes('.webp')) {
+            } else if (mime.startsWith('image/') || record.fileName.endsWith('.jpg') || record.fileName.endsWith('.png') || record.fileName.endsWith('.webp')) {
                 format = "image";
             }
 
             let renderBlock = `<div style="width:100%; text-align:center;">
-                <div style="font-size:13px; color:#38bdf8; font-weight:700; margin-bottom:15px; letter-spacing:0.5px;">📡 CHANNEL CONNECTED</div>`;
+                <div style="font-size:13px; color:#4ade80; font-weight:700; margin-bottom:10px; letter-spacing:1px;">⚡ CACHE CHANNEL ACTIVE: #${targetCode}</div>
+                <div style="font-size:11px; color:#475569; margin-bottom:20px; font-family:monospace;">Source: ${record.fileName}</div>`;
 
             if (format === 'audio') {
-                renderBlock += `<div style="font-size:60px; margin-bottom:15px;">🎵</div>`;
-                renderBlock += `<audio controls src="${targetFullUrl}" autoplay style="outline:none;"></audio>`;
+                renderBlock += `<div style="font-size:50px; margin-bottom:15px;">🎵</div>`;
+                renderBlock += `<audio controls src="${record.streamUrl}" autoplay></audio>`;
             } else if (format === 'video') {
-                renderBlock += `<video controls src="${targetFullUrl}" autoplay></video>`;
+                renderBlock += `<video controls src="${record.streamUrl}" autoplay></video>`;
             } else if (format === 'image') {
-                renderBlock += `<img class="viewport-img" src="${targetFullUrl}">`;
+                renderBlock += `<img class="viewport-img" src="${record.streamUrl}">`;
             } else {
-                renderBlock += `<div style="font-size:60px; margin-bottom:15px;">📂</div>
-                                <p style="font-size:14px; color:#94a3b8; margin-bottom:15px;">Direct stream connection established.</p>`;
-                renderBlock += `<button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${targetFullUrl}" download="Asset" target="_blank" style="color:#fff; text-decoration:none;">Download/Stream Media</a></button>`;
+                renderBlock += `<div style="font-size:50px; margin-bottom:15px;">📂</div>
+                                <p style="font-size:14px; color:#94a3b8; margin-bottom:15px;">Unknown binary configuration stream.</p>
+                                <button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${record.streamUrl}" download="${record.fileName}" style="color:#fff; text-decoration:none;">Open Raw Stream</a></button>`;
             }
 
             renderBlock += `</div>`;
-            
-            setTimeout(() => {
-                viewport.innerHTML = renderBlock;
-            }, 400);
+            viewport.innerHTML = renderBlock;
         }
 
         function copyKey() {
             const keyField = document.getElementById('finalShortenedUrl');
             keyField.select();
             navigator.clipboard.writeText(keyField.value);
-            alert("Short Code Copied Successfully!");
+            alert("Micro Code Copied to Clipboard!");
         }
     </script>
 </body>
