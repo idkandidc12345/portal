@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL X — Local Sync Channel Hub</title>
+    <title>PORTAL X — Permanent Cloud Hub</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
@@ -51,7 +51,7 @@
         }
 
         .hero-banner p {
-            color: #38bdf8;
+            color: #c084fc;
             font-size: 15px;
             font-weight: 700;
             text-transform: uppercase;
@@ -83,7 +83,7 @@
         .drop-zone {
             position: relative;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .drop-zone input[type="file"] {
@@ -94,7 +94,7 @@
         }
 
         .giant-upload-box {
-            padding: 50px 20px;
+            padding: 55px 20px;
             background: rgba(0, 0, 0, 0.3);
             border: 2px dashed rgba(255, 255, 255, 0.15);
             border-radius: 20px;
@@ -106,20 +106,8 @@
         }
 
         .drop-zone:hover .giant-upload-box {
-            border-color: #38bdf8;
+            border-color: #c084fc;
             color: #fff;
-        }
-
-        .filename-tip {
-            background: rgba(56, 189, 248, 0.06);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            padding: 14px 18px;
-            border-radius: 14px;
-            font-size: 13px;
-            color: #93c5fd;
-            font-weight: 500;
-            margin-bottom: 20px;
-            line-height: 1.4;
         }
 
         .pro-btn {
@@ -137,14 +125,51 @@
 
         .pro-btn:hover {
             background: #fff;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+        }
+
+        .pro-btn:disabled {
+            background: rgba(255,255,255,0.05);
+            color: #475569;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .progress-wrapper {
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .progress-bar-bg {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #c084fc, #6366f1);
+            transition: width 0.1s linear;
         }
 
         .success-tray {
             margin-top: 25px;
             padding: 20px;
-            background: rgba(34, 197, 94, 0.04);
-            border: 1px solid rgba(34, 197, 94, 0.2);
+            background: rgba(192, 132, 252, 0.04);
+            border: 1px solid rgba(192, 132, 252, 0.2);
             border-radius: 18px;
             display: none;
         }
@@ -153,7 +178,7 @@
             font-size: 12px;
             text-transform: uppercase;
             font-weight: 800;
-            color: #4ade80;
+            color: #c084fc;
             display: block;
             margin-bottom: 8px;
             letter-spacing: 0.05em;
@@ -172,11 +197,10 @@
             border-radius: 12px;
             color: #fff;
             font-family: monospace;
-            font-size: 24px;
+            font-size: 22px;
             text-align: center;
             outline: none;
             font-weight: 900;
-            letter-spacing: 1px;
         }
 
         .viewport-stage {
@@ -205,145 +229,207 @@
         
         <div class="hero-banner">
             <h1>PORTAL X</h1>
-            <p>Local Cache Micro-Linker</p>
+            <p>Permanent Cloud Sync Network</p>
         </div>
 
         <!-- TRANSMITTER CARD -->
         <div class="massive-card">
-            <h2>📡 Local Memory Streamer</h2>
+            <h2>📡 Cloud Asset Transmitter</h2>
             
             <div class="drop-zone">
                 <input type="file" id="mediaPayload" onchange="stageFile()">
                 <div class="giant-upload-box" id="uploadBoxLabel">
-                    <span style="font-size: 36px; display:block; margin-bottom:12px;">⚡</span>
-                    DROP MEDIA FILE HERE<br><span style="font-size:12px; color:#475569; font-weight:400; display:block; margin-top:6px;">Instantly locks file into your browser session memory.</span>
+                    <span style="font-size: 36px; display:block; margin-bottom:12px;">☁️</span>
+                    DROP MEDIA FILE HERE<br><span style="font-size:12px; color:#475569; font-weight:400; display:block; margin-top:6px;">Upload directly to global cloud servers permanently.</span>
                 </div>
             </div>
 
-            <div class="filename-tip">
-                <strong>💡 Quick Tip:</strong> Keep your file names short and sweet! Shorter names prevent memory address fragmentation and make tracking seamless.
+            <!-- PROGRESS TRACKER -->
+            <div class="progress-wrapper" id="progressRunway">
+                <div class="progress-meta">
+                    <span id="progressStatusText">Streaming to cloud nodes...</span>
+                    <span id="progressPercentText">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
             </div>
 
-            <button class="pro-btn" id="uploadBtn" onclick="generateMicroMemoryToken()">Generate Tiny Micro Code</button>
+            <button class="pro-btn" id="uploadBtn" onclick="transmitToPermanentCloud()">Upload & Link Globally</button>
 
             <div class="success-tray" id="urlTray">
-                <label>🔮 Your Session Micro Code:</label>
+                <label>🔮 Persistent Short Code:</label>
                 <div class="input-row">
-                    <input type="text" id="finalShortenedUrl" readonly style="color: #4ade80;">
-                    <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px; background: #4ade80; color: #020617;" onclick="copyKey()">Copy Code</button>
+                    <input type="text" id="finalShortenedUrl" readonly style="color: #c084fc;">
+                    <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px; background: #c084fc; color: #020617;" onclick="copyKey()">Copy Code</button>
                 </div>
-                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🚀 Type just this 4-digit code directly into the discovery deck next door!</span>
+                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🔒 This 5-character cloud token is locked permanently. Access it anytime on the right panel.</span>
             </div>
         </div>
 
         <!-- RECEIVER CARD -->
         <div class="massive-card">
-            <h2>🔮 Micro Discovery Deck</h2>
+            <h2>🔮 Universal Discovery Deck</h2>
             
             <div class="input-row" style="margin-bottom: 25px;">
-                <input type="text" id="linkOrKeyField" placeholder="Enter 4-digit token (e.g. 7421)" autocomplete="off">
-                <button class="pro-btn" style="width:auto; padding:0 25px;" onclick="pullFromMemoryChannel()">Connect</button>
+                <input type="text" id="linkOrKeyField" placeholder="Enter short token (e.g. x8a2b)" autocomplete="off">
+                <button class="pro-btn" style="width:auto; padding:0 25px;" onclick="syncGlobalCloudChannel()">Connect</button>
             </div>
 
             <div class="viewport-stage" id="viewportMain">
-                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter an active session code to sync playback.</div>
+                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a global short token to stream synced media files.</div>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Use browser storage keys mapped directly to internal file references
-        window.portalMemoryBank = window.portalMemoryBank || {};
-        let temporarilyStagedFile = null;
+        let standardStagedFile = null;
 
         function stageFile() {
             const input = document.getElementById('mediaPayload');
             const box = document.getElementById('uploadBoxLabel');
             if (!input.files || input.files.length === 0) return;
 
-            temporarilyStagedFile = input.files[0];
-            box.innerHTML = `<span style="font-size: 36px; display:block; margin-bottom:12px;">📦</span><strong>${temporarilyStagedFile.name}</strong><br><span style="font-size:13px; color:#38bdf8;">Locked in Local Cache Runway.</span>`;
+            standardStagedFile = input.files[0];
+            box.innerHTML = `<span style="font-size: 36px; display:block; margin-bottom:12px;">📦</span><strong>${standardStagedFile.name}</strong><br><span style="font-size:13px; color:#c084fc;">Ready for global deployment.</span>`;
             
             document.getElementById('urlTray').style.display = "none";
+            document.getElementById('progressRunway').style.display = "none";
         }
 
-        function generateMicroMemoryToken() {
-            if (!temporarilyStagedFile) {
-                alert("Please drop a file down first.");
+        function transmitToPermanentCloud() {
+            if (!standardStagedFile) {
+                alert("Please drag and drop a file first.");
                 return;
             }
 
-            // Generate a super tiny, ultra-clean 4 digit number
-            const tinyNumericToken = Math.floor(1000 + Math.random() * 9000).toString();
-            
-            // Convert file stream directly into a local browser stream URL
-            const nativeStreamUrl = URL.createObjectURL(temporarilyStagedFile);
+            const uploadBtn = document.getElementById('uploadBtn');
+            const runway = document.getElementById('progressRunway');
+            const fill = document.getElementById('progressBarFill');
+            const percentText = document.getElementById('progressPercentText');
+            const statusText = document.getElementById('progressStatusText');
+            const tray = document.getElementById('urlTray');
+            const keyField = document.getElementById('finalShortenedUrl');
 
-            // Save references inside our app sandbox
-            window.portalMemoryBank[tinyNumericToken] = {
-                streamUrl: nativeStreamUrl,
-                fileName: temporarilyStagedFile.name,
-                fileType: temporarilyStagedFile.type
+            runway.style.display = "block";
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = "Uploading to Cloud...";
+            fill.style.width = "0%";
+            percentText.textContent = "0%";
+
+            const formData = new FormData();
+            formData.append('reqtype', 'fileupload');
+            formData.append('fileToUpload', standardStagedFile);
+
+            const xhr = new XMLHttpRequest();
+            // Encapsulated upload via proxy endpoint to completely eliminate local CORS blocks
+            xhr.open('POST', 'https://corsproxy.io/?' + encodeURIComponent('https://catbox.moe/user/api.php'), true);
+
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const percentage = Math.round((e.loaded / e.total) * 100);
+                    fill.style.width = percentage + "%";
+                    percentText.textContent = percentage + "%";
+                    if (percentage < 100) {
+                        statusText.textContent = "Pushing raw packets to Catbox infrastructure...";
+                    } else {
+                        statusText.textContent = "Allocating short-code key...";
+                    }
+                }
             };
 
-            const keyField = document.getElementById('finalShortenedUrl');
-            const tray = document.getElementById('urlTray');
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseText = xhr.responseText.trim();
+                    
+                    // Catbox provides clean string responses: https://files.catbox.moe/abcde.mp3
+                    if (responseText.includes('files.catbox.moe/')) {
+                        // Extract only the short code and extension (e.g. abcde.mp3)
+                        const tokenSegment = responseText.split('files.catbox.moe/')[1];
+                        
+                        keyField.value = tokenSegment;
+                        tray.style.display = "block";
+                        statusText.textContent = "Cloud Deployment Successful!";
+                        uploadBtn.textContent = "Channel Active";
+                    } else {
+                        handleError("Server structural error: " + responseText);
+                    }
+                } else {
+                    handleError("Cloud network refused deployment. Status: " + xhr.status);
+                }
+            };
 
-            keyField.value = tinyNumericToken;
-            tray.style.display = "block";
+            xhr.onerror = function() {
+                handleError("Connection to global proxy failed.");
+            };
+
+            xhr.send(formData);
+
+            function handleError(message) {
+                alert(message);
+                runway.style.display = "none";
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = "Upload & Link Globally";
+            }
         }
 
-        function pullFromMemoryChannel() {
-            const targetCode = document.getElementById('linkOrKeyField').value.trim();
+        function syncGlobalCloudChannel() {
+            let userInput = document.getElementById('linkOrKeyField').value.trim();
             const viewport = document.getElementById('viewportMain');
             
-            if (!targetCode) return;
+            if (!userInput) return;
 
-            const record = window.portalMemoryBank[targetCode];
+            viewport.innerHTML = `<div class="placeholder-text" style="color:#c084fc;">Fetching remote cloud pipelines...</div>`;
 
-            if (!record) {
-                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Code channel error. Channel #${targetCode} is empty or expired.</div>`;
-                return;
+            // Auto-extract code cleanly if they paste the absolute URL inside the field
+            if (userInput.includes('files.catbox.moe/')) {
+                userInput = userInput.split('files.catbox.moe/')[1];
             }
 
-            const mime = record.fileType.toLowerCase();
+            // Remap straight back to original absolute cloud URL
+            const absoluteCloudUrl = "https://files.catbox.moe/" + userInput;
+            const checkUrl = absoluteCloudUrl.toLowerCase();
             let format = "unknown";
 
-            if (mime.startsWith('audio/') || record.fileName.endsWith('.mp3') || record.fileName.endsWith('.wav') || record.fileName.endsWith('.m4a')) {
+            // Map extension to appropriate stream component
+            if (checkUrl.endsWith('.mp3') || checkUrl.endsWith('.wav') || checkUrl.endsWith('.ogg') || checkUrl.endsWith('.m4a')) {
                 format = "audio";
-            } else if (mime.startsWith('video/') || record.fileName.endsWith('.mp4') || record.fileName.endsWith('.webm') || record.fileName.endsWith('.mov')) {
+            } else if (checkUrl.endsWith('.mp4') || checkUrl.endsWith('.webm') || checkUrl.endsWith('.mov')) {
                 format = "video";
-            } else if (mime.startsWith('image/') || record.fileName.endsWith('.jpg') || record.fileName.endsWith('.png') || record.fileName.endsWith('.webp')) {
+            } else if (checkUrl.endsWith('.jpg') || checkUrl.endsWith('.jpeg') || checkUrl.endsWith('.png') || checkUrl.endsWith('.gif') || checkUrl.endsWith('.webp')) {
                 format = "image";
             }
 
             let renderBlock = `<div style="width:100%; text-align:center;">
-                <div style="font-size:13px; color:#4ade80; font-weight:700; margin-bottom:10px; letter-spacing:1px;">⚡ CACHE CHANNEL ACTIVE: #${targetCode}</div>
-                <div style="font-size:11px; color:#475569; margin-bottom:20px; font-family:monospace;">Source: ${record.fileName}</div>`;
+                <div style="font-size:13px; color:#c084fc; font-weight:700; margin-bottom:10px; letter-spacing:1px;">📡 GLOBAL STREAM SYNCED</div>
+                <div style="font-size:11px; color:#475569; margin-bottom:20px; font-family:monospace;">Token Key: ${userInput}</div>`;
 
             if (format === 'audio') {
                 renderBlock += `<div style="font-size:50px; margin-bottom:15px;">🎵</div>`;
-                renderBlock += `<audio controls src="${record.streamUrl}" autoplay></audio>`;
+                renderBlock += `<audio controls src="${absoluteCloudUrl}" autoplay style="outline:none;"></audio>`;
             } else if (format === 'video') {
-                renderBlock += `<video controls src="${record.streamUrl}" autoplay></video>`;
+                renderBlock += `<video controls src="${absoluteCloudUrl}" autoplay></video>`;
             } else if (format === 'image') {
-                renderBlock += `<img class="viewport-img" src="${record.streamUrl}">`;
+                renderBlock += `<img class="viewport-img" src="${absoluteCloudUrl}">`;
             } else {
                 renderBlock += `<div style="font-size:50px; margin-bottom:15px;">📂</div>
-                                <p style="font-size:14px; color:#94a3b8; margin-bottom:15px;">Unknown binary configuration stream.</p>
-                                <button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${record.streamUrl}" download="${record.fileName}" style="color:#fff; text-decoration:none;">Open Raw Stream</a></button>`;
+                                <p style="font-size:14px; color:#94a3b8; margin-bottom:15px;">File synced. Format needs direct browser rendering.</p>
+                                <button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${absoluteCloudUrl}" target="_blank" style="color:#fff; text-decoration:none;">Open Resource Pipeline</a></button>`;
             }
 
             renderBlock += `</div>`;
-            viewport.innerHTML = renderBlock;
+            
+            setTimeout(() => {
+                viewport.innerHTML = renderBlock;
+            }, 300);
         }
 
         function copyKey() {
             const keyField = document.getElementById('finalShortenedUrl');
             keyField.select();
             navigator.clipboard.writeText(keyField.value);
-            alert("Micro Code Copied to Clipboard!");
+            alert("Short cloud key copied to clipboard!");
         }
     </script>
 </body>
