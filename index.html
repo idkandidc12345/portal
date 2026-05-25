@@ -1,50 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>PERMANENT ARCHIVE NODE</title>
+    <title>DropZone</title>
     <style>
-        body { font-family: 'Courier New', monospace; background: #050505; color: #00ff00; padding: 40px; }
-        .terminal { border: 1px solid #00ff00; padding: 20px; max-width: 800px; margin: auto; }
-        input, button { background: #111; color: #00ff00; border: 1px solid #00ff00; padding: 10px; width: 100%; margin: 10px 0; }
-        .long-url { color: #fff; background: #222; padding: 15px; word-break: break-all; margin-top: 10px; font-size: 12px; }
+        body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto; }
+        .box { border: 1px solid #333; padding: 40px; border-radius: 20px; text-align: center; }
+        input[type="file"] { margin: 20px 0; }
+        button { background: #fff; color: #000; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="terminal">
-        <h2>[SYSTEM: UPLOAD TO PERMANENT NODE]</h2>
-        <input type="file" id="fileInput">
-        <button onclick="processUpload()">INITIALIZE UPLOAD</button>
-        
-        <div id="outputSection" style="display:none;">
-            <h3>[STATUS: ARCHIVED]</h3>
-            <div id="resultUrl" class="long-url"></div>
-        </div>
+    <div class="box">
+        <h3>Upload File</h3>
+        <input type="file" id="filePicker">
+        <button onclick="upload()">Generate Direct Link</button>
+        <p id="linkArea"></p>
     </div>
 
     <script>
-        // Note: For the most permanent, longest-form URLs, users typically 
-        // direct to their own private bucket or a trusted archive.
-        async function processUpload() {
-            const file = document.getElementById('fileInput').files[0];
-            if (!file) return;
-
-            // Using a specialized form submission to an archive-grade host
-            const formData = new FormData();
-            formData.append("file", file);
-
-            const response = await fetch("https://api.anonfiles.com/v2/upload", {
-                method: "POST",
-                body: formData
-            });
-
-            const data = await response.json();
-            if (data.status) {
-                document.getElementById('outputSection').style.display = "block";
-                document.getElementById('resultUrl').innerText = data.data.file.url.full;
-            } else {
-                alert("Upload failed. Node busy.");
-            }
+        async function upload() {
+            const file = document.getElementById('filePicker').files[0];
+            // You would connect your R2/S3 API key here
+            // Once uploaded, you generate the public URL:
+            const myDomain = "https://files.yourdomain.com/";
+            const fileName = file.name;
+            const finalLink = myDomain + fileName;
+            
+            document.getElementById('linkArea').innerHTML = `Copy: <a href="${finalLink}" download>${finalLink}</a>`;
         }
     </script>
 </body>
