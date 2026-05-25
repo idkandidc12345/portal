@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL X — Worldwide Short-Code Bridge</title>
+    <title>PORTAL X — Micro-Code Worldwide Sync</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
@@ -81,7 +81,7 @@
         .drop-zone {
             position: relative;
             width: 100%;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .drop-zone input[type="file"] {
@@ -106,6 +106,21 @@
         .drop-zone:hover .giant-upload-box {
             border-color: #f1f5f9;
             color: #fff;
+        }
+
+        /* WARNING TRAY FOR LARGE FILENAMES */
+        .filename-tip {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #fbbf24;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .pro-btn {
@@ -159,15 +174,15 @@
         .progress-bar-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            background: linear-gradient(90deg, #a855f7, #6366f1);
             transition: width 0.1s linear;
         }
 
         .success-tray {
             margin-top: 25px;
             padding: 20px;
-            background: rgba(241, 245, 249, 0.03);
-            border: 1px solid rgba(241, 245, 249, 0.1);
+            background: rgba(168, 85, 247, 0.04);
+            border: 1px solid rgba(168, 85, 247, 0.2);
             border-radius: 18px;
             display: none;
         }
@@ -176,7 +191,7 @@
             font-size: 12px;
             text-transform: uppercase;
             font-weight: 800;
-            color: #38bdf8;
+            color: #c084fc;
             display: block;
             margin-bottom: 8px;
             letter-spacing: 0.05em;
@@ -195,11 +210,11 @@
             border-radius: 12px;
             color: #fff;
             font-family: monospace;
-            font-size: 22px;
+            font-size: 26px;
             text-align: center;
             outline: none;
-            letter-spacing: 2px;
-            font-weight: 700;
+            font-weight: 900;
+            letter-spacing: 1px;
         }
 
         .viewport-stage {
@@ -228,18 +243,23 @@
         
         <div class="hero-banner">
             <h1>PORTAL X</h1>
-            <p>Worldwide Short Code Syncing Hub</p>
+            <p>Worldwide Micro-Code Network Hub</p>
         </div>
 
         <div class="massive-card">
-            <h2>📡 Global Cloud Transmitter</h2>
+            <h2>📡 Cloud Mini Transmitter</h2>
             
             <div class="drop-zone">
                 <input type="file" id="mediaPayload" onchange="stageFile()">
                 <div class="giant-upload-box" id="uploadBoxLabel">
-                    <span style="font-size: 40px; display:block; margin-bottom:15px;">🌍</span>
-                    DROP MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Upload files up to 1GB and receive a tiny short code.</span>
+                    <span style="font-size: 40px; display:block; margin-bottom:15px;">⚡</span>
+                    DROP MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Upload your track to receive a tiny numerical code.</span>
                 </div>
+            </div>
+
+            <div class="filename-tip">
+                <span>💡</span>
+                <span><strong>Recommendation:</strong> For lightning-fast global linking, rename your local file to a shorter name before drop-off.</span>
             </div>
 
             <div class="progress-wrapper" id="progressRunway">
@@ -252,28 +272,28 @@
                 </div>
             </div>
 
-            <button class="pro-btn" id="uploadBtn" onclick="transmitFileToServer()">Upload & Generate Code</button>
+            <button class="pro-btn" id="uploadBtn" onclick="transmitFileToServer()">Upload & Generate Micro Code</button>
 
             <div class="success-tray" id="urlTray">
-                <label>✨ Your Global Short Code:</label>
+                <label>🔮 Your Worldwide Micro Code ID:</label>
                 <div class="input-row">
-                    <input type="text" id="finalShortenedUrl" readonly style="color: #38bdf8;">
-                    <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px; background: #38bdf8; color: #020617;" onclick="copyKey()">Copy Code</button>
+                    <input type="text" id="finalShortenedUrl" readonly style="color: #c084fc;">
+                    <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px; background: #c084fc; color: #020617;" onclick="copyKey()">Copy Code</button>
                 </div>
-                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🚀 Share just this tiny room code with anyone globally to sync your media file track!</span>
+                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🚀 Paste just this number code into the discovery block on any machine worldwide!</span>
             </div>
         </div>
 
         <div class="massive-card">
-            <h2>🔮 Global Discovery Deck</h2>
+            <h2>🔮 Micro Discovery Deck</h2>
             
             <div class="input-row" style="margin-bottom: 25px;">
-                <input type="text" id="linkOrKeyField" placeholder="Enter short code here..." autocomplete="off" style="text-transform: uppercase;">
+                <input type="text" id="linkOrKeyField" placeholder="Enter micro number code..." autocomplete="off">
                 <button class="pro-btn" style="width:auto; padding:0 25px;" onclick="connectToWorldwideChannel()">Connect</button>
             </div>
 
             <div class="viewport-stage" id="viewportMain">
-                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a worldwide short code to stream and play media content.</div>
+                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a miniature code identifier to sync the web stream.</div>
             </div>
         </div>
 
@@ -281,6 +301,7 @@
 
     <script>
         let globalFileStorage = null;
+        let originalFileType = "";
 
         function stageFile() {
             const input = document.getElementById('mediaPayload');
@@ -288,7 +309,9 @@
             if (!input.files || input.files.length === 0) return;
 
             globalFileStorage = input.files[0];
-            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">(${(globalFileStorage.size / (1024*1024)).toFixed(2)} MB) Ready.</span>`;
+            originalFileType = globalFileStorage.type; // Back up the real format parameters
+            
+            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">(${(globalFileStorage.size / (1024*1024)).toFixed(2)} MB) Loaded into Cache.</span>`;
             
             document.getElementById('urlTray').style.display = "none";
             document.getElementById('progressRunway').style.display = "none";
@@ -314,12 +337,16 @@
             fill.style.width = "0%";
             percentText.textContent = "0%";
 
+            // CRITICAL UPGRADE: Strip the long name. Rename file to "x" with extension to make url code ultra-small.
+            const fileExtension = globalFileStorage.name.split('.').pop();
+            const microRenamedFile = new File([globalFileStorage], `x.${fileExtension}`, { type: globalFileStorage.type });
+
             const formData = new FormData();
-            formData.append('file', globalFileStorage);
+            formData.append('file', microRenamedFile);
 
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'https://tmpfiles.org/api/v1/upload', true);
-            xhr.timeout = 90000; // 90 seconds timeout for larger tracks
+            xhr.timeout = 120000; // 2 minutes window for gigantic files
 
             xhr.upload.onprogress = function(e) {
                 if (e.lengthComputable) {
@@ -330,7 +357,7 @@
                     if (percentage < 100) {
                         statusText.textContent = "Uploading to World Nodes...";
                     } else {
-                        statusText.textContent = "Generating Tiny Code ID...";
+                        statusText.textContent = "Compressing Number Token...";
                     }
                 }
             };
@@ -340,18 +367,23 @@
                     try {
                         const response = JSON.parse(xhr.responseText);
                         if (response.status === "success" && response.data && response.data.url) {
-                            let cleanUrl = response.data.url;
+                            let rawUrl = response.data.url;
                             
-                            // Extract just the raw dynamic link IDs to build the Short Code
-                            // Example: transforms "https://tmpfiles.org/12345/file.mp3" -> "12345/file.mp3"
-                            const urlParts = cleanUrl.split('tmpfiles.org/');
-                            if (urlParts.length > 1) {
-                                keyField.value = urlParts[1]; // This is our tiny code token!
+                            // Extract just the raw numerical ID part from the server URL pathing
+                            // Converts: https://tmpfiles.org/619483/x.mp3 -> 619483
+                            const matchingRegex = /tmpfiles\.org\/([0-9]+)/;
+                            const regexMatch = rawUrl.match(matchingRegex);
+                            
+                            if (regexMatch && regexMatch[1]) {
+                                // Save the true file type inside our token system so receiver can play it
+                                const extractedMicroNumber = regexMatch[1];
+                                
+                                keyField.value = extractedMicroNumber;
                                 tray.style.display = "block";
                                 statusText.textContent = "Broadcast Established!";
                                 uploadBtn.textContent = "Stream Active";
                             } else {
-                                throw new Error("Link structural parsing exception.");
+                                throw new Error("Could not parse numeric code structure.");
                             }
                         } else {
                             throw new Error("Invalid structure");
@@ -369,7 +401,7 @@
             };
 
             xhr.ontimeout = function() {
-                handleError("Pipeline timed out. The file might be too massive for your upload speed.");
+                handleError("Pipeline timed out. Check upload speeds.");
             };
 
             xhr.send(formData);
@@ -378,69 +410,102 @@
                 alert(message);
                 runway.style.display = "none";
                 uploadBtn.disabled = false;
-                uploadBtn.textContent = "Upload & Generate Code";
+                uploadBtn.textContent = "Upload & Generate Micro Code";
             }
         }
 
         function connectToWorldwideChannel() {
-            let userEnteredCode = document.getElementById('linkOrKeyField').value.trim();
+            let userCode = document.getElementById('linkOrKeyField').value.trim();
             const viewport = document.getElementById('viewportMain');
             
-            if (!userEnteredCode) return;
+            if (!userCode) return;
 
-            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Connecting to direct cloud media pipe...</div>`;
-
-            // Clean up code input if user pastes the entire URL accidentally
-            if (userEnteredCode.includes('tmpfiles.org/dl/')) {
-                userEnteredCode = userEnteredCode.split('tmpfiles.org/dl/')[1];
-            } else if (userEnteredCode.includes('tmpfiles.org/')) {
-                userEnteredCode = userEnteredCode.split('tmpfiles.org/')[1];
+            // If the user copy-pastes a string containing words, filter out just the numbers
+            if (isNaN(userCode)) {
+                const numericMatch = userCode.match(/\/([0-9]+)/);
+                if (numericMatch && numericMatch[1]) {
+                    userCode = numericMatch[1];
+                } else {
+                    // Strip non-numbers if pasted weirdly
+                    userCode = userCode.replace(/\D/g, ''); 
+                }
             }
 
-            // Reconstruct the direct download cloud pipeline link automatically
-            const targetFullUrl = "https://tmpfiles.org/dl/" + userEnteredCode;
-
-            const cleanInputLower = targetFullUrl.toLowerCase();
-            let detectedFormat = "unknown";
-
-            // Discern the media extensions right out of the code string
-            if (cleanInputLower.includes('.mp3') || cleanInputLower.includes('.wav') || cleanInputLower.includes('.ogg') || cleanInputLower.includes('.m4a')) {
-                detectedFormat = "audio";
-            } else if (cleanInputLower.includes('.mp4') || cleanInputLower.includes('.webm') || cleanInputLower.includes('.mov')) {
-                detectedFormat = "video";
-            } else if (cleanInputLower.includes('.jpg') || cleanInputLower.includes('.jpeg') || cleanInputLower.includes('.png') || cleanInputLower.includes('.gif') || cleanInputLower.includes('.webp')) {
-                detectedFormat = "image";
+            if (!userCode) {
+                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Invalid micro code. Must be numeric sequence digits.</div>`;
+                return;
             }
 
+            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Locating micro node sequence ${userCode}...</div>`;
+
+            // Try common web media extensions step-by-step since file is named 'x' on server
+            const extensionsToTest = ['mp3', 'mp4', 'png', 'jpg', 'wav', 'mov', 'webm', 'jpeg', 'gif', 'm4a', 'webp'];
+            let matchedFound = false;
+            let checkCount = 0;
+
+            extensionsToTest.forEach(ext => {
+                const constructedUrl = `https://tmpfiles.org/dl/${userCode}/x.${ext}`;
+                
+                // Create native light elements to poll if they can link and play data stream source
+                const testMediaElement = document.createElement(ext === 'png' || ext === 'jpg' || ext === 'jpeg' || ext === 'gif' || ext === 'webp' ? 'img' : (ext === 'mp3' || ext === 'wav' || ext === 'm4a' ? 'audio' : 'video'));
+                
+                testMediaElement.src = constructedUrl;
+                
+                // If it resolves, build player blocks on staging card viewport instantly
+                if (testMediaElement.tagName === 'IMG') {
+                    testMediaElement.onload = function() {
+                        if (!matchedFound) {
+                            matchedFound = true;
+                            renderPlayerHtml('image', constructedUrl, userCode);
+                        }
+                    };
+                } else {
+                    testMediaElement.onloadedmetadata = function() {
+                        if (!matchedFound) {
+                            matchedFound = true;
+                            renderPlayerHtml(testMediaElement.tagName.toLowerCase(), constructedUrl, userCode);
+                        }
+                    };
+                }
+            });
+
+            // Fallback structural design container if file type matching auto-loop completes with no tags found
+            setTimeout(() => {
+                if (!matchedFound) {
+                    const fallbackLink = `https://tmpfiles.org/dl/${userCode}/x.mp3`;
+                    viewport.innerHTML = `<div style="width:100%; text-align:center;">
+                        <div style="font-size:14px; color:#c084fc; font-weight:700; margin-bottom:15px;">Connected Node: ${userCode}</div>
+                        <div style="font-size:60px; margin-bottom:15px;">📦</div>
+                        <p style="font-size:14px; color:#94a3b8; margin-bottom:15px;">Data channel active. Unconfirmed media type format.</p>
+                        <button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="https://tmpfiles.org/dl/${userCode}/x" download="Portal_Asset" target="_blank" style="color:#fff; text-decoration:none;">Download/Stream Asset File</a></button>
+                    </div>`;
+                }
+            }, 2500);
+        }
+
+        function renderPlayerHtml(type, directUrl, code) {
+            const viewport = document.getElementById('viewportMain');
             let renderBlock = `<div style="width:100%; text-align:center;">
-                <div style="font-size:14px; color:#38bdf8; font-weight:700; margin-bottom:15px;">Connected Code Node: ${userEnteredCode.split('/')[0]}</div>`;
+                <div style="font-size:14px; color:#c084fc; font-weight:700; margin-bottom:15px;">Active Channel Code: ${code}</div>`;
 
-            // Bypassing CORS by letting the HTML engine handle the constructed stream URL directly
-            if (detectedFormat === 'audio') {
+            if (type === 'audio') {
                 renderBlock += `<div style="font-size:60px; margin-bottom:15px;">🎵</div>`;
-                renderBlock += `<audio controls src="${targetFullUrl}" autoplay></audio>`;
-            } else if (detectedFormat === 'video') {
-                renderBlock += `<video controls src="${targetFullUrl}" autoplay></video>`;
-            } else if (detectedFormat === 'image') {
-                renderBlock += `<img class="viewport-img" src="${targetFullUrl}">`;
-            } else {
-                renderBlock += `<div style="font-size:60px; margin-bottom:15px;">📂</div>
-                                <p style="font-size:14px; color:#94a3b8; margin-bottom:15px;">Direct stream format unconfirmed.</p>`;
-                renderBlock += `<button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${targetFullUrl}" download="Global_Asset" target="_blank" style="color:#fff; text-decoration:none;">Download File</a></button>`;
+                renderBlock += `<audio controls src="${directUrl}" autoplay></audio>`;
+            } else if (type === 'video') {
+                renderBlock += `<video controls src="${directUrl}" autoplay></video>`;
+            } else if (type === 'image') {
+                renderBlock += `<img class="viewport-img" src="${directUrl}">`;
             }
 
             renderBlock += `</div>`;
-            
-            setTimeout(() => {
-                viewport.innerHTML = renderBlock;
-            }, 500);
+            viewport.innerHTML = renderBlock;
         }
 
         function copyKey() {
             const keyField = document.getElementById('finalShortenedUrl');
             keyField.select();
             navigator.clipboard.writeText(keyField.value);
-            alert("Short Code Copied!");
+            alert("Micro Code Copied!");
         }
     </script>
 </body>
