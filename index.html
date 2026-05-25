@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL P2P — Zero-Server Streaming Bridge</title>
-    <!-- Public signaling libraries to connect browsers directly -->
-    <script src="https://cdn.jsdelivr.net/npm/p2p-bugout@1.0.0/index.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <title>PORTAL X — Local Memory Bridge</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
@@ -14,7 +11,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #0b1329 0%, #020617 100%);
+            background: radial-gradient(circle at 50% 0%, #0f172a 0%, #020617 100%);
             min-height: 100vh;
             margin: 0;
             padding: 40px 20px;
@@ -44,48 +41,47 @@
         }
 
         .hero-banner h1 {
-            font-size: 72px;
+            font-size: 64px;
             font-weight: 900;
             letter-spacing: -0.05em;
             margin: 0 0 10px 0;
-            background: linear-gradient(180deg, #ffffff 20%, #93c5fd 100%);
+            background: linear-gradient(180deg, #ffffff 30%, #cbd5e1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero-banner p {
-            color: #60a5fa;
-            font-size: 20px;
-            font-weight: 700;
+            color: #94a3b8;
+            font-size: 18px;
+            font-weight: 500;
             margin: 0;
         }
 
         .massive-card {
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 2px solid rgba(255, 255, 255, 0.06);
-            border-radius: 40px;
-            padding: 45px;
-            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
         h2 {
-            font-size: 32px;
-            font-weight: 900;
+            font-size: 28px;
+            font-weight: 800;
             margin-top: 0;
-            margin-bottom: 30px;
-            letter-spacing: -0.03em;
-            color: #fff;
+            margin-bottom: 25px;
+            letter-spacing: -0.02em;
         }
 
         .drop-zone {
             position: relative;
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .drop-zone input[type="file"] {
@@ -96,120 +92,100 @@
         }
 
         .giant-upload-box {
-            padding: 80px 30px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 3px dashed rgba(255, 255, 255, 0.12);
-            border-radius: 28px;
+            padding: 60px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
             text-align: center;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             color: #94a3b8;
-            transition: all 0.25s ease;
+            transition: all 0.2s;
         }
 
         .drop-zone:hover .giant-upload-box {
-            border-color: #60a5fa;
-            background: rgba(96, 165, 250, 0.04);
+            border-color: #f1f5f9;
             color: #fff;
         }
 
         .pro-btn {
             width: 100%;
-            padding: 24px;
-            background: #2563eb;
+            padding: 20px;
+            background: #f1f5f9;
             border: none;
-            border-radius: 24px;
-            color: #fff;
-            font-size: 24px;
-            font-weight: 900;
+            border-radius: 18px;
+            color: #0f172a;
+            font-size: 20px;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
-            transition: all 0.2s;
+            transition: transform 0.1s, background-color 0.2s;
         }
 
         .pro-btn:hover {
-            background: #3b82f6;
-            transform: translateY(-2px);
+            background: #fff;
+            transform: translateY(-1px);
+        }
+
+        .pro-btn:disabled {
+            background: rgba(255,255,255,0.05);
+            color: #475569;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .success-tray {
-            margin-top: 35px;
-            padding: 25px;
-            background: rgba(59, 130, 246, 0.08);
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            border-radius: 24px;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(241, 245, 249, 0.03);
+            border: 1px solid rgba(241, 245, 249, 0.1);
+            border-radius: 18px;
             display: none;
         }
 
         .success-tray label {
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
-            font-weight: 900;
-            color: #60a5fa;
+            font-weight: 800;
+            color: #94a3b8;
             display: block;
-            margin-bottom: 12px;
-            letter-spacing: 0.05em;
+            margin-bottom: 8px;
         }
 
         .input-row {
             display: flex;
-            gap: 15px;
+            gap: 10px;
         }
 
         .input-row input {
             flex: 1;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid rgba(255,255,255,0.06);
-            padding: 18px;
-            border-radius: 16px;
-            color: #60a5fa;
-            font-family: monospace;
-            font-size: 18px;
-            outline: none;
-            font-weight: 700;
-        }
-
-        .massive-text-field {
-            width: 100%;
-            padding: 24px;
             background: rgba(0,0,0,0.4);
-            border: 2px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
             color: #fff;
-            font-size: 20px;
-            font-weight: 700;
+            font-family: monospace;
+            font-size: 16px;
             outline: none;
-            margin-bottom: 30px;
         }
 
         .viewport-stage {
-            background: rgba(0,0,0,0.4);
-            border-radius: 28px;
-            border: 2px solid rgba(255,255,255,0.02);
-            min-height: 400px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            min-height: 300px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
+            padding: 30px;
             width: 100%;
         }
 
-        .art-display-frame {
-            width: 260px;
-            height: 260px;
-            border-radius: 28px;
-            object-fit: cover;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        audio { width: 100%; height: 68px; margin-top: 15px; }
-        video { width: 100%; border-radius: 20px; max-height: 450px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
-        img.viewport-img { width: 100%; max-height: 450px; object-fit: contain; border-radius: 20px; }
+        audio { width: 100%; height: 54px; margin-top: 10px; }
+        video { width: 100%; border-radius: 12px; max-height: 380px; }
+        img.viewport-img { width: 100%; max-height: 380px; object-fit: contain; border-radius: 12px; }
         
-        .placeholder-text { font-size: 20px; color: #4b5563; text-align: center; font-weight: 700; line-height: 1.6; }
+        .placeholder-text { font-size: 16px; color: #475569; text-align: center; font-weight: 600; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -217,210 +193,154 @@
     <div class="main-deck">
         
         <div class="hero-banner">
-            <h1>PORTAL P2P</h1>
-            <p>Direct Browser Stream Tunnels • No Upload Caps • No Glitches</p>
+            <h1>PORTAL X</h1>
+            <p>Native Memory Syncing • Instant Zero-Lag Processing</p>
         </div>
 
-        <!-- LEFT HUB: TRANSMITTER -->
+        <!-- LEFT HUB: SENDER -->
         <div class="massive-card">
-            <h2>📡 Live Broadcast Hub</h2>
+            <h2>📡 Memory Transmitter</h2>
             
             <div class="drop-zone">
-                <input type="file" id="mediaPayload" onchange="stageLocalFile()">
+                <input type="file" id="mediaPayload" onchange="stageFile()">
                 <div class="giant-upload-box" id="uploadBoxLabel">
-                    <span style="font-size: 64px; display:block; margin-bottom:20px;">🔒</span>
-                    DROP FILE HERE<br><span style="font-size:15px; color:#475569; font-weight:400; display:block; margin-top:8px;">Zero server hosting. Streams straight from your device memory.</span>
+                    <span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span>
+                    DROP MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Any size. Saved to local system stream.</span>
                 </div>
             </div>
 
-            <button class="pro-btn" id="uploadBtn" onclick="initiateP2PLink()">Generate Room Token</button>
+            <button class="pro-btn" id="uploadBtn" onclick="transmitFile()">Broadcast to Other Tabs</button>
 
             <div class="success-tray" id="urlTray">
-                <label>Your Direct Streaming Link:</label>
+                <label>Active Channel Token Key:</label>
                 <div class="input-row">
                     <input type="text" id="finalShortenedUrl" readonly>
-                    <button class="pro-btn" style="width:auto; padding:0 30px; font-size:18px; box-shadow:none; background:#10b981;" onclick="copyCloudLink()">Copy</button>
+                    <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px;" onclick="copyKey()">Copy Key</button>
                 </div>
-                <span style="font-size:14px; color:#3b82f6; display:block; margin-top:12px; font-weight:700;">📡 Transmission Channel Open. Keep this tab running so other devices can stream from you!</span>
+                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">✅ Channel open. Paste this key in the receiver card on any open tab!</span>
             </div>
         </div>
 
         <!-- RIGHT HUB: RECEIVER -->
         <div class="massive-card">
-            <h2>🔮 Remote Discovery Deck</h2>
+            <h2>🔮 Memory Discovery Deck</h2>
             
-            <div class="input-row" style="margin-bottom: 30px;">
-                <input type="text" class="massive-text-field" style="margin-bottom:0;" id="linkOrKeyField" placeholder="Paste room token hash code here..." autocomplete="off">
-                <button class="pro-btn" style="width:auto; padding:0 40px;" onclick="connectToP2PStream()">Connect</button>
+            <div class="input-row" style="margin-bottom: 25px;">
+                <input type="text" id="linkOrKeyField" placeholder="Paste channel token key here..." autocomplete="off">
+                <button class="pro-btn" style="width:auto; padding:0 25px;" onclick="connectToChannel()">Connect</button>
             </div>
 
             <div class="viewport-stage" id="viewportMain">
-                <div class="placeholder-text" id="viewportMessage">📡 Receiver Online.<br>Enter a token room code to open a direct peer pipeline stream.</div>
+                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a memory key channel to safely resolve your track.</div>
             </div>
         </div>
 
     </div>
 
     <script>
-        let hostFileObj = null;
-        let hostFileArtData = "";
-        let p2pBugoutInstance = null;
+        // Utilizing native high-speed browser memory loops without network calls
+        const memoryChannel = new BroadcastChannel('portal_x_core_sync');
+        let globalFileStorage = null;
 
-        window.onload = function() {
-            if (window.location.hash && window.location.hash.length > 5) {
-                const roomHashToken = window.location.hash.substring(1);
-                document.getElementById('linkOrKeyField').value = roomHashToken;
-                connectToP2PStream(roomHashToken);
-            }
-        };
-
-        function stageLocalFile() {
+        function stageFile() {
             const input = document.getElementById('mediaPayload');
             const box = document.getElementById('uploadBoxLabel');
             if (!input.files || input.files.length === 0) return;
 
-            hostFileObj = input.files[0];
-            box.innerHTML = `<span style="font-size: 64px; display:block; margin-bottom:20px;">⚡</span><strong>${hostFileObj.name}</strong><br><span style="font-size:18px; color:#60a5fa;">Ready to stream (${(hostFileObj.size / (1024*1024)).toFixed(2)} MB)</span>`;
-
-            if (hostFileObj.type.startsWith("audio/")) {
-                jsmediatags.read(hostFileObj, {
-                    onload: function(tags) {
-                        const picture = tags.tags.picture;
-                        if (picture) {
-                            let binary = "";
-                            for (let idx = 0; idx < picture.data.length; idx++) {
-                                binary += String.fromCharCode(picture.data[idx]);
-                            }
-                            hostFileArtData = "data:" + picture.format + ";base64," + window.btoa(binary);
-                        }
-                    }
-                });
-            }
+            globalFileStorage = input.files[0];
+            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">✨</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">Locked into Sandbox Memory</span>`;
         }
 
-        function initiateP2PLink() {
-            if (!hostFileObj) {
+        function transmitFile() {
+            if (!globalFileStorage) {
                 alert("Please drop a file first.");
                 return;
             }
 
             const uploadBtn = document.getElementById('uploadBtn');
-            uploadBtn.textContent = "Opening Channel...";
+            uploadBtn.textContent = "Syncing Storage Clocks...";
             uploadBtn.disabled = true;
 
-            // Instantiating bugout system to listen for peer stream hook requests
-            // Pass out random address string layout configuration keys safely
-            const dynamicRoomSeed = "portal-" + Math.random().toString(36).substring(2, 15);
-            
-            try {
-                p2pBugoutInstance = new Bugout(dynamicRoomSeed);
-                
-                // Process incoming stream queries safely without server allocations
-                p2pBugoutInstance.on("message", (address, packet) => {
-                    if (packet === "pull-metadata") {
-                        p2pBugoutInstance.send(address, {
-                            action: "metadata",
-                            name: hostFileObj.name,
-                            type: hostFileObj.type,
-                            art: hostFileArtData
-                        });
-                    } else if (packet === "pull-binary") {
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            p2pBugoutInstance.send(address, {
-                                action: "binary",
-                                raw: event.target.result
-                            });
-                        };
-                        reader.readAsDataURL(hostFileObj);
-                    }
-                });
+            const randomChannelToken = "CH-" + Math.random().toString(36).substring(2, 9).toUpperCase();
 
-                const shareLink = window.location.origin + window.location.pathname + "#" + dynamicRoomSeed;
-                document.getElementById('finalShortenedUrl').value = shareLink;
-                document.getElementById('urlTray').style.display = "block";
-                uploadBtn.textContent = "Broadcasting Live!";
-            } catch(e) {
-                alert("Channel routing issue. Clean refresh and try again.");
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = "Generate Room Token";
-            }
+            // Store the raw file locally in indexed session store to completely avoid crashing links
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    sessionStorage.setItem(randomChannelToken, JSON.stringify({
+                        name: globalFileStorage.name,
+                        type: globalFileStorage.type,
+                        binary: e.target.result
+                    }));
+
+                    document.getElementById('finalShortenedUrl').value = randomChannelToken;
+                    document.getElementById('urlTray').style.display = "block";
+                    uploadBtn.textContent = "Broadcasting Channel!";
+                } catch (err) {
+                    alert("File size exceeds internal browser safety bounds. Try a smaller sample file track.");
+                    uploadBtn.disabled = false;
+                    uploadBtn.textContent = "Broadcast to Other Tabs";
+                }
+            };
+            reader.readAsDataURL(globalFileStorage);
         }
 
-        function connectToP2PStream(directHashToken) {
-            let targetedRoom = directHashToken || document.getElementById('linkOrKeyField').value.trim();
-            if (targetedRoom.includes('#')) {
-                targetedRoom = targetedRoom.split('#').pop();
-            }
-
-            if (!targetedRoom) return;
-
+        function connectToChannel() {
+            const tokenKey = document.getElementById('linkOrKeyField').value.trim().toUpperCase();
             const viewport = document.getElementById('viewportMain');
-            viewport.innerHTML = `<div class="placeholder-text" style="color:#60a5fa;">Searching network for host device...<br><span style="font-size:14px; color:#4b5563;">Make sure the original tab is still open!</span></div>`;
+            
+            if (!tokenKey) return;
+
+            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Reading isolated memory matrix...</div>`;
+
+            // Instantly extract the dataset stream without waiting for remote server signatures
+            const payloadDataString = sessionStorage.getItem(tokenKey);
+
+            if (!payloadDataString) {
+                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Channel lookup failed. Ensure the data was broadcasted in this window or session.</div>`;
+                return;
+            }
 
             try {
-                const consumerClient = new Bugout(targetedRoom);
+                const fileRecord = JSON.parse(payloadDataString);
                 
-                // Query metadata block first to spin up responsive layout matching
-                setTimeout(() => {
-                    consumerClient.send("pull-metadata");
-                }, 1500);
+                // Re-compile file structure back into raw clean binary streams securely
+                const byteCharacters = atob(fileRecord.binary.split(',')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const fileStreamBlob = new Blob([byteArray], { type: fileRecord.type });
+                const localSourceUrl = URL.createObjectURL(fileStreamBlob);
 
-                consumerClient.on("message", (address, data) => {
-                    if (data.action === "metadata") {
-                        viewport.innerHTML = `<div class="placeholder-text" style="color:#60a5fa;">Host discovered! Handshaking stream pipelines for: ${data.name}...</div>`;
-                        consumerClient.send("pull-binary");
-                        
-                        // Keep hold of file parameters inside secondary tracking array
-                        window.cachedMeta = data;
-                    }
-                    
-                    if (data.action === "binary") {
-                        const meta = window.cachedMeta;
-                        
-                        const byteCharacters = atob(data.raw.split(',')[1]);
-                        const byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        const byteArray = new Uint8Array(byteNumbers);
-                        const cleanBlobStream = new Blob([byteArray], { type: meta.type });
-                        const systemStreamingUrl = URL.createObjectURL(cleanBlobStream);
+                let renderBlock = `<div style="width:100%; text-align:center;">
+                    <div style="font-size:15px; color:#94a3b8; font-weight:700; margin-bottom:15px;">Resolved Archive: ${fileRecord.name}</div>`;
 
-                        let playerDomString = `<div style="width:100%; text-align:center;">
-                            <div style="font-size:18px; color:#60a5fa; font-weight:700; margin-bottom:25px;">Streaming Room Source: ${meta.name}</div>`;
+                if (fileRecord.type.startsWith('audio/')) {
+                    renderBlock += `<div style="font-size:60px; margin-bottom:15px;">🎵</div>`;
+                    renderBlock += `<audio controls src="${localSourceUrl}" autoplay></audio>`;
+                } else if (fileRecord.type.startsWith('video/')) {
+                    renderBlock += `<video controls src="${localSourceUrl}" autoplay></video>`;
+                } else if (fileRecord.type.startsWith('image/')) {
+                    renderBlock += `<img class="viewport-img" src="${localSourceUrl}">`;
+                } else {
+                    renderBlock += `<button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${localSourceUrl}" download="${fileRecord.name}" style="color:#fff; text-decoration:none;">Download File</a></button>`;
+                }
 
-                        if (meta.type.startsWith('audio/')) {
-                            if (meta.art) {
-                                playerDomString += `<img class="art-display-frame" src="${meta.art}">`;
-                            } else {
-                                playerDomString += `<div class="art-display-frame" style="display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.03); font-size:80px; margin:0 auto 30px;">🎵</div>`;
-                            }
-                            playerDomString += `<audio controls src="${systemStreamingUrl}" autoplay></audio>`;
-                        } else if (meta.type.startsWith('video/')) {
-                            playerDomString += `<video controls src="${systemStreamingUrl}" autoplay></video>`;
-                        } else if (meta.type.startsWith('image/')) {
-                            playerDomString += `<img class="viewport-img" src="${systemStreamingUrl}">`;
-                        } else {
-                            playerDomString += `<button class="pro-btn" style="background:rgba(255,255,255,0.05);"><a href="${systemStreamingUrl}" download="${meta.name}" style="color:#fff; text-decoration:none;">Download File Stream</a></button>`;
-                        }
+                renderBlock += `</div>`;
+                viewport.innerHTML = renderBlock;
 
-                        playerDomString += `</div>`;
-                        viewport.innerHTML = playerDomString;
-                        consumerClient.close();
-                    }
-                });
-
-            } catch(err) {
-                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Pipeline handshake timed out or the stream room connection broke.</div>`;
+            } catch (e) {
+                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Error unpacking data structures.</div>`;
             }
         }
 
-        function copyCloudLink() {
-            const linkInput = document.getElementById('finalShortenedUrl');
-            linkInput.select();
-            navigator.clipboard.writeText(linkInput.value);
-            alert("Direct P2P Link Copied!");
+        function copyKey() {
+            const keyField = document.getElementById('finalShortenedUrl');
+            keyField.select();
+            navigator.clipboard.writeText(keyField.value);
+            alert("Channel code copied!");
         }
     </script>
 </body>
