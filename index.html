@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL X — Local Memory Bridge</title>
+    <title>PORTAL X — High-Capacity Memory Bridge</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
@@ -194,18 +194,18 @@
         
         <div class="hero-banner">
             <h1>PORTAL X</h1>
-            <p>Native Memory Syncing • Instant Zero-Lag Processing</p>
+            <p>IndexedDB High-Capacity Storage • Unlimited Local Multi-Tab Syncing</p>
         </div>
 
         <!-- LEFT HUB: SENDER -->
         <div class="massive-card">
-            <h2>📡 Memory Transmitter</h2>
+            <h2>📡 High-Capacity Transmitter</h2>
             
             <div class="drop-zone">
                 <input type="file" id="mediaPayload" onchange="stageFile()">
                 <div class="giant-upload-box" id="uploadBoxLabel">
-                    <span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span>
-                    DROP MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Any size. Saved to local system stream.</span>
+                    <span style="font-size: 40px; display:block; margin-bottom:15px;">🚀</span>
+                    DROP LARGE MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Supports massive file sizes using native disk database storage.</span>
                 </div>
             </div>
 
@@ -217,7 +217,7 @@
                     <input type="text" id="finalShortenedUrl" readonly>
                     <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px;" onclick="copyKey()">Copy Key</button>
                 </div>
-                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">✅ Channel open. Paste this key in the receiver card on any open tab!</span>
+                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">✅ Channel open. Paste this key into the receiver panel of any tab on this machine!</span>
             </div>
         </div>
 
@@ -231,16 +231,33 @@
             </div>
 
             <div class="viewport-stage" id="viewportMain">
-                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a memory key channel to safely resolve your track.</div>
+                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a high-capacity channel key to pull your media track instantly.</div>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Utilizing native high-speed browser memory loops without network calls
-        const memoryChannel = new BroadcastChannel('portal_x_core_sync');
         let globalFileStorage = null;
+        let dbInstance = null;
+
+        // Initialize high-capacity native database engine
+        const dbRequest = indexedDB.open("PortalXLargeStorageDB", 1);
+        
+        dbRequest.onupgradeneeded = function(e) {
+            let db = e.target.result;
+            if (!db.objectStoreNames.contains("mediaBlocks")) {
+                db.createObjectStore("mediaBlocks", { keyPath: "channelKey" });
+            }
+        };
+
+        dbRequest.onsuccess = function(e) {
+            dbInstance = e.target.result;
+        };
+
+        dbRequest.onerror = function() {
+            console.error("Failed to initialize system IndexedDB subsystem.");
+        };
 
         function stageFile() {
             const input = document.getElementById('mediaPayload');
@@ -248,7 +265,7 @@
             if (!input.files || input.files.length === 0) return;
 
             globalFileStorage = input.files[0];
-            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">✨</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">Locked into Sandbox Memory</span>`;
+            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">Stream Locked (${(globalFileStorage.size / (1024*1024)).toFixed(2)} MB)</span>`;
         }
 
         function transmitFile() {
@@ -256,33 +273,42 @@
                 alert("Please drop a file first.");
                 return;
             }
+            if (!dbInstance) {
+                alert("Database engine warming up. Please wait half a second and try again.");
+                return;
+            }
 
             const uploadBtn = document.getElementById('uploadBtn');
-            uploadBtn.textContent = "Syncing Storage Clocks...";
+            uploadBtn.textContent = "Writing System Database Blocks...";
             uploadBtn.disabled = true;
 
-            const randomChannelToken = "CH-" + Math.random().toString(36).substring(2, 9).toUpperCase();
+            const randomChannelToken = "PORTAL-" + Math.random().toString(36).substring(2, 9).toUpperCase();
 
-            // Store the raw file locally in indexed session store to completely avoid crashing links
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    sessionStorage.setItem(randomChannelToken, JSON.stringify({
-                        name: globalFileStorage.name,
-                        type: globalFileStorage.type,
-                        binary: e.target.result
-                    }));
-
-                    document.getElementById('finalShortenedUrl').value = randomChannelToken;
-                    document.getElementById('urlTray').style.display = "block";
-                    uploadBtn.textContent = "Broadcasting Channel!";
-                } catch (err) {
-                    alert("File size exceeds internal browser safety bounds. Try a smaller sample file track.");
-                    uploadBtn.disabled = false;
-                    uploadBtn.textContent = "Broadcast to Other Tabs";
-                }
+            // Store raw untouched file object as an optimized Blob architecture to bypass all limits
+            const transaction = dbInstance.transaction(["mediaBlocks"], "readwrite");
+            const store = transaction.objectStore("mediaBlocks");
+            
+            const databasePayload = {
+                channelKey: randomChannelToken,
+                name: globalFileStorage.name,
+                type: globalFileStorage.type,
+                blobData: globalFileStorage // Native high-speed binary allocation
             };
-            reader.readAsDataURL(globalFileStorage);
+
+            const storeRequest = store.put(databasePayload);
+
+            storeRequest.onsuccess = function() {
+                document.getElementById('finalShortenedUrl').value = randomChannelToken;
+                document.getElementById('urlTray').style.display = "block";
+                uploadBtn.textContent = "Broadcast Active!";
+                uploadBtn.disabled = false;
+            };
+
+            storeRequest.onerror = function() {
+                alert("Critical database write error. Clean page refresh required.");
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = "Broadcast to Other Tabs";
+            };
         }
 
         function connectToChannel() {
@@ -290,32 +316,30 @@
             const viewport = document.getElementById('viewportMain');
             
             if (!tokenKey) return;
-
-            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Reading isolated memory matrix...</div>`;
-
-            // Instantly extract the dataset stream without waiting for remote server signatures
-            const payloadDataString = sessionStorage.getItem(tokenKey);
-
-            if (!payloadDataString) {
-                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Channel lookup failed. Ensure the data was broadcasted in this window or session.</div>`;
+            if (!dbInstance) {
+                alert("Database engine initialization pending.");
                 return;
             }
 
-            try {
-                const fileRecord = JSON.parse(payloadDataString);
-                
-                // Re-compile file structure back into raw clean binary streams securely
-                const byteCharacters = atob(fileRecord.binary.split(',')[1]);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Accessing high-capacity disk blocks...</div>`;
+
+            const transaction = dbInstance.transaction(["mediaBlocks"], "readonly");
+            const store = transaction.objectStore("mediaBlocks");
+            const fetchRequest = store.get(tokenKey);
+
+            fetchRequest.onsuccess = function(e) {
+                const fileRecord = e.target.result;
+
+                if (!fileRecord) {
+                    viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Channel lookup failed. Token invalid, missing, or created in a different browser client.</div>`;
+                    return;
                 }
-                const byteArray = new Uint8Array(byteNumbers);
-                const fileStreamBlob = new Blob([byteArray], { type: fileRecord.type });
-                const localSourceUrl = URL.createObjectURL(fileStreamBlob);
+
+                // Instantly spawn high-speed processing stream straight out of raw file data allocation
+                const localSourceUrl = URL.createObjectURL(fileRecord.blobData);
 
                 let renderBlock = `<div style="width:100%; text-align:center;">
-                    <div style="font-size:15px; color:#94a3b8; font-weight:700; margin-bottom:15px;">Resolved Archive: ${fileRecord.name}</div>`;
+                    <div style="font-size:15px; color:#94a3b8; font-weight:700; margin-bottom:15px;">Resolved Engine Asset: ${fileRecord.name}</div>`;
 
                 if (fileRecord.type.startsWith('audio/')) {
                     renderBlock += `<div style="font-size:60px; margin-bottom:15px;">🎵</div>`;
@@ -325,22 +349,23 @@
                 } else if (fileRecord.type.startsWith('image/')) {
                     renderBlock += `<img class="viewport-img" src="${localSourceUrl}">`;
                 } else {
-                    renderBlock += `<button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${localSourceUrl}" download="${fileRecord.name}" style="color:#fff; text-decoration:none;">Download File</a></button>`;
+                    renderBlock += `<button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${localSourceUrl}" download="${fileRecord.name}" style="color:#fff; text-decoration:none;">Download File Track</a></button>`;
                 }
 
                 renderBlock += `</div>`;
                 viewport.innerHTML = renderBlock;
+            };
 
-            } catch (e) {
-                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Error unpacking data structures.</div>`;
-            }
+            fetchRequest.onerror = function() {
+                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">System encountered an error accessing hardware memory tracks.</div>`;
+            };
         }
 
         function copyKey() {
             const keyField = document.getElementById('finalShortenedUrl');
             keyField.select();
             navigator.clipboard.writeText(keyField.value);
-            alert("Channel code copied!");
+            alert("Channel Token Key Copied!");
         }
     </script>
 </body>
