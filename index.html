@@ -133,6 +133,35 @@
             transform: none;
         }
 
+        /* NEW METRICS AND PROGRESS ELEMENTS */
+        .progress-wrapper {
+            margin: 20px 0;
+            display: none;
+        }
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            transition: width 0.1s linear;
+        }
+
         .success-tray {
             margin-top: 25px;
             padding: 20px;
@@ -194,7 +223,7 @@
         
         <div class="hero-banner">
             <h1>PORTAL X</h1>
-            <p>Worldwide Syncing Hub • Instant Global Playback</p>
+            <p>Worldwide Syncing Hub • Live Progress Engine</p>
         </div>
 
         <!-- LEFT HUB: TRANSMITTER -->
@@ -205,7 +234,18 @@
                 <input type="file" id="mediaPayload" onchange="stageFile()">
                 <div class="giant-upload-box" id="uploadBoxLabel">
                     <span style="font-size: 40px; display:block; margin-bottom:15px;">🌍</span>
-                    DROP MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Upload files up to several hundred MBs to sync instantly worldwide.</span>
+                    DROP MEDIA FILE HERE<br><span style="font-size:13px; color:#475569; font-weight:400; display:block; margin-top:6px;">Sync files up to 1GB worldwide with direct percentage tracking.</span>
+                </div>
+            </div>
+
+            <!-- NEW PROGRESS RUNWAY -->
+            <div class="progress-wrapper" id="progressRunway">
+                <div class="progress-meta">
+                    <span id="progressStatusText">Streaming data blocks...</span>
+                    <span id="progressPercentText">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
             </div>
 
@@ -217,7 +257,7 @@
                     <input type="text" id="finalShortenedUrl" readonly>
                     <button class="pro-btn" style="width:auto; padding:0 20px; font-size:14px;" onclick="copyKey()">Copy Key</button>
                 </div>
-                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🚀 Channel active. Share this key with anyone globally to run your media file track!</span>
+                <span style="font-size:12px; color:#94a3b8; display:block; margin-top:10px;">🚀 Channel active. Anyone globally can paste this key to pull your file.</span>
             </div>
         </div>
 
@@ -231,7 +271,7 @@
             </div>
 
             <div class="viewport-stage" id="viewportMain">
-                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a worldwide key or raw link to steam and play media content.</div>
+                <div class="placeholder-text" id="viewportMessage">Terminal Standby.<br>Enter a worldwide key or link to stream and play content.</div>
             </div>
         </div>
 
@@ -246,92 +286,125 @@
             if (!input.files || input.files.length === 0) return;
 
             globalFileStorage = input.files[0];
-            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">Ready for Global Broadcast (${(globalFileStorage.size / (1024*1024)).toFixed(2)} MB)</span>`;
+            box.innerHTML = `<span style="font-size: 40px; display:block; margin-bottom:15px;">📦</span><strong>${globalFileStorage.name}</strong><br><span style="font-size:14px; color:#94a3b8;">(${(globalFileStorage.size / (1024*1024)).toFixed(2)} MB) Ready.</span>`;
+            
+            // Hide previous success states if loading a completely new file
+            document.getElementById('urlTray').style.display = "none";
+            document.getElementById('progressRunway').style.display = "none";
         }
 
-        // Global upload function utilizing a clean, streaming multipart upload
-        async function transmitFileToServer() {
+        function transmitFileToServer() {
             if (!globalFileStorage) {
                 alert("Please drop a file first.");
                 return;
             }
 
             const uploadBtn = document.getElementById('uploadBtn');
+            const runway = document.getElementById('progressRunway');
+            const fill = document.getElementById('progressBarFill');
+            const percentText = document.getElementById('progressPercentText');
+            const statusText = document.getElementById('progressStatusText');
             const tray = document.getElementById('urlTray');
             const keyField = document.getElementById('finalShortenedUrl');
 
-            uploadBtn.textContent = "Streaming to Global Nodes (Please Wait)...";
+            // Initialize progress UI
+            runway.style.display = "block";
             uploadBtn.disabled = true;
+            uploadBtn.textContent = "Processing Stream...";
+            fill.style.width = "0%";
+            percentText.textContent = "0%";
 
-            // Packing file object into a direct form boundary pipeline
             const formData = new FormData();
             formData.append('file', globalFileStorage);
 
-            try {
-                // Using file.io public endpoint for seamless global pipeline handling
-                const response = await fetch('https://file.io', {
-                    method: 'POST',
-                    body: formData
-                });
+            // Replaced fetch with XMLHttpRequest to support live progress callback listeners
+            const xhr = new XMLHttpRequest();
+            
+            // Streaming to tmpfiles.org endpoint which has highly reliable chunk parsing
+            xhr.open('POST', 'https://tmpfiles.org/api/v1/upload', true);
+            xhr.timeout = 45000; // 45-second hardware timeout constraint
 
-                if (!response.ok) throw new Error("Upload node response failure.");
-
-                const data = await response.json();
-
-                if (data.success) {
-                    // Provide the full cloud data link directly as the channel token
-                    keyField.value = data.link; 
-                    tray.style.display = "block";
-                    uploadBtn.textContent = "Worldwide Stream Ready!";
-                } else {
-                    throw new Error(data.message || "Cloud rejected package parsing.");
+            // Live progress calculator loop
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const percentage = Math.round((e.loaded / e.total) * 100);
+                    fill.style.width = percentage + "%";
+                    percentText.textContent = percentage + "%";
+                    
+                    if (percentage < 100) {
+                        statusText.textContent = "Uploading to World Nodes...";
+                    } else {
+                        statusText.textContent = "Finalizing Global Channel URL...";
+                    }
                 }
+            };
 
-            } catch (err) {
-                console.error(err);
-                alert("Global upload pipeline congested. Check internet connection and retry.");
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.status === "success" && response.data && response.data.url) {
+                            // Convert the standard link to a raw direct-download link layout
+                            let cleanUrl = response.data.url;
+                            cleanUrl = cleanUrl.replace("tmpfiles.org/", "tmpfiles.org/dl/");
+                            
+                            keyField.value = cleanUrl;
+                            tray.style.display = "block";
+                            statusText.textContent = "Broadcast Established!";
+                            uploadBtn.textContent = "Stream Active";
+                        } else {
+                            throw new Error("Invalid structure returned from server.");
+                        }
+                    } catch (err) {
+                        handleError("Parsing Error: Node response structural breakdown.");
+                    }
+                } else {
+                    handleError("Server rejected global asset allocation. Code: " + xhr.status);
+                }
+            };
+
+            xhr.onerror = function() {
+                handleError("Network pipe failure. Check connection.");
+            };
+
+            xhr.ontimeout = function() {
+                handleError("Pipeline timed out. The file might be too massive for your current upload speed.");
+            };
+
+            xhr.send(formData);
+
+            function handleError(message) {
+                alert(message);
+                runway.style.display = "none";
                 uploadBtn.disabled = false;
                 uploadBtn.textContent = "Upload & Generate Global Key";
             }
         }
 
         async function connectToWorldwideChannel() {
-            let targetInput = document.getElementById('linkOrKeyField').value.trim();
+            const targetInput = document.getElementById('linkOrKeyField').value.trim();
             const viewport = document.getElementById('viewportMain');
             
             if (!targetInput) return;
 
-            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Locating cloud asset from world servers...</div>`;
-
-            // If they just pasted a token instead of the full URL, format it properly
-            if (!targetInput.startsWith('http://') && !targetInput.startsWith('https://')) {
-                // Formatting safety check in case they dropped a clean token ID
-                if(targetInput.includes('/')) {
-                   targetInput = 'https://file.io/' + targetInput.split('/').pop();
-                } else {
-                   targetInput = 'https://file.io/' + targetInput;
-                }
-            }
+            viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Locating cloud asset across servers...</div>`;
 
             try {
-                // Test fetch to identify matching metadata and confirm file types
-                viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Streaming binary file blocks live...</div>`;
+                viewport.innerHTML = `<div class="placeholder-text" style="color:#94a3b8;">Downloading stream fragments...</div>`;
                 
-                // Fetch directly into a raw Blob object to bypass system memory freezing
                 const downloadResponse = await fetch(targetInput);
                 if (!downloadResponse.ok) throw new Error("File missing or expired.");
                 
                 const downloadedBlob = await downloadResponse.blob();
                 const globalPlaybackUrl = URL.createObjectURL(downloadedBlob);
 
-                // Attempt content type extraction from both the file extensions or system headers
                 let detectedType = downloadedBlob.type || "";
                 const cleanInputLower = targetInput.toLowerCase();
                 
                 if (!detectedType) {
-                    if (cleanInputLower.endsWith('.mp3') || cleanInputLower.endsWith('.wav') || cleanInputLower.endsWith('.ogg')) detectedType = 'audio/mpeg';
-                    if (cleanInputLower.endsWith('.mp4') || cleanInputLower.endsWith('.webm')) detectedType = 'video/mp4';
-                    if (cleanInputLower.endsWith('.jpg') || cleanInputLower.endsWith('.jpeg') || cleanInputLower.endsWith('.png')) detectedType = 'image/jpeg';
+                    if (cleanInputLower.includes('.mp3') || cleanInputLower.includes('.wav')) detectedType = 'audio/mpeg';
+                    if (cleanInputLower.includes('.mp4') || cleanInputLower.includes('.webm')) detectedType = 'video/mp4';
+                    if (cleanInputLower.includes('.jpg') || cleanInputLower.includes('.png')) detectedType = 'image/jpeg';
                 }
 
                 let renderBlock = `<div style="width:100%; text-align:center;">
@@ -345,16 +418,15 @@
                 } else if (detectedType.startsWith('image/')) {
                     renderBlock += `<img class="viewport-img" src="${globalPlaybackUrl}">`;
                 } else {
-                    // Fallback to let them pull raw tracking configurations or unsupported archives smoothly
                     renderBlock += `<div style="font-size:60px; margin-bottom:15px;">📂</div>`;
-                    renderBlock += `<button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${globalPlaybackUrl}" download="Synced_Media_Asset" style="color:#fff; text-decoration:none;">Download Media Asset File</a></button>`;
+                    renderBlock += `<button class="pro-btn" style="background:rgba(255,255,255,0.05); color:#fff;"><a href="${globalPlaybackUrl}" download="Global_Asset" style="color:#fff; text-decoration:none;">Download Asset File</a></button>`;
                 }
 
                 renderBlock += `</div>`;
                 viewport.innerHTML = renderBlock;
 
             } catch (e) {
-                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Failed to pull file. The link might be broken, or the single-download limit was reached.</div>`;
+                viewport.innerHTML = `<div class="placeholder-text" style="color:#f87171;">Failed to pull file. The link might be broken, or server traffic is blocked.</div>`;
             }
         }
 
@@ -362,7 +434,7 @@
             const keyField = document.getElementById('finalShortenedUrl');
             keyField.select();
             navigator.clipboard.writeText(keyField.value);
-            alert("Global URL Link Key Copied!");
+            alert("Global Link Key Copied!");
         }
     </script>
 </body>
